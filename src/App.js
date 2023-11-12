@@ -1,25 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
 
-function App() {
+const App = () => {
+  const [usaTime, setUsaTime] = useState(new Date());
+
+  useEffect(() => {
+    // Update the time every second
+    const interval = setInterval(() => {
+      setUsaTime(new Date());
+    }, 1000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
+
+  const options = {
+    timeZone: 'America/New_York', // USA Eastern Time Zone
+    hour24: true, // Use 12-hour format (false for 24-hour format)
+    hour: 'numeric',
+    minute: 'numeric',
+    second: 'numeric',
+  };
+
+  const usaTimeString = usaTime.toLocaleString('en-US', options);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Current USA Time:</h1>
+      <p>{usaTimeString}</p>
     </div>
   );
-}
+};
 
 export default App;
